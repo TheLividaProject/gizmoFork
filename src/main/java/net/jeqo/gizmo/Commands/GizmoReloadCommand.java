@@ -23,15 +23,16 @@ public class GizmoReloadCommand implements SubCommands {
     public void onCommand(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
             if (!player.hasPermission("gizmo.reload")) {
-                player.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
+                player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
                 return;
             }
         }
 
-        //TODO load this async
-        plugin.configManager.load();
+        Bukkit.getAsyncScheduler().runNow(plugin, task -> {
+            plugin.configManager.load();
+        });
 
-        sender.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.reload.config-reloaded")));
+        sender.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.reload.config-reloaded")));
     }
 
 

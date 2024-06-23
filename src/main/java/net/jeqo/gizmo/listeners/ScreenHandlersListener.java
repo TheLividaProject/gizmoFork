@@ -45,7 +45,7 @@ public class ScreenHandlersListener implements Listener {
                 disableEffects(player);
             } else if (event.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED || event.getStatus() == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD) {
                 disableEffects(player);
-                player.kickPlayer(colourUtils.oldFormat(plugin.configManager.getConfig().getString("resource-pack.kick-on-decline")).replace(",", "\n").replace("[", "").replace("]", ""));
+                player.kick(colourUtils.miniFormat(plugin.configManager.getConfig().getString("resource-pack.kick-on-decline")));
             }
         } else if (!plugin.configManager.getConfig().getBoolean("resource-pack.kick-on-decline")) {
             if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
@@ -53,7 +53,7 @@ public class ScreenHandlersListener implements Listener {
             } else if (event.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED || event.getStatus() == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD) {
                 disableEffects(player);
                 for (String msg : plugin.configManager.getConfig().getStringList("resource-pack.no-pack-loaded")) {
-                    player.sendMessage(colourUtils.oldFormat(msg));
+                    player.sendMessage(colourUtils.miniFormat(msg));
                 }
             }
         }

@@ -14,8 +14,6 @@ public class ConfigManager {
 
     private FileConfiguration config, screens, lang;
 
-    private final ColourUtils colourUtils = new ColourUtils();
-
     public ConfigManager(Gizmo plugin) {
         this.plugin = plugin;
         load();
@@ -47,11 +45,11 @@ public class ConfigManager {
     }
 
     public String screenTitle() {
-        return colourUtils.oldFormat(plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.background") + shift1536() + ChatColor.WHITE +plugin.configManager.getScreens().getString("Unicodes.welcome-screen"));
+        return plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.background") + shift1536() + "<#FFFFFF>" + plugin.configManager.getScreens().getString("Unicodes.welcome-screen");
     }
 
     public String screenTitleFirstJoin() {
-        return colourUtils.oldFormat(plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.first-join-background") + shift1536() + ChatColor.WHITE + plugin.configManager.getScreens().getString("Unicodes.first-join-welcome-screen"));
+        return plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.first-join-background") + shift1536() + "<#FFFFFF>" + plugin.configManager.getScreens().getString("Unicodes.first-join-welcome-screen");
     }
 
     public FileConfiguration getConfig() {

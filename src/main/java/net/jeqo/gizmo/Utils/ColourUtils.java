@@ -1,37 +1,49 @@
 package net.jeqo.gizmo.Utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.jetbrains.annotations.NotNull;
 
 public class ColourUtils {
 
-    private final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
-    public String oldFormat(String message) {
-        Matcher match = pattern.matcher(message);
-
-        while (match.find()) {
-            String colour = message.substring(match.start(), match.end());
-            message = message.replace(colour, ChatColor.of(colour) + "");
-            match = pattern.matcher(message);
-        }
-
-        return ChatColor.translateAlternateColorCodes('&', message);
+    public @NotNull Component miniFormat(String message) {
+        return miniMessage.deserialize(message).decoration(TextDecoration.ITALIC, false);
     }
 
-    public String oldFormat(Player player, String message) {
-        Matcher match = pattern.matcher(message);
+    public @NotNull Component miniFormat(String message, TagResolver tagResolver) {
+        return miniMessage.deserialize(message, tagResolver).decoration(TextDecoration.ITALIC, false);
+    }
 
-        while (match.find()) {
-            String colour = message.substring(match.start(), match.end());
-            message = message.replace(colour, ChatColor.of(colour) + "");
-            match = pattern.matcher(message);
-        }
+    public @NotNull Component placeHolderMiniFormat(Player player, String message) {
+        return miniMessage.deserialize(message, papiTag(player)).decoration(TextDecoration.ITALIC, false);
+    }
 
-        return PlaceholderAPI.setPlaceholders(player, ChatColor.translateAlternateColorCodes('&', message));
+    public @NotNull Component placeHolderMiniFormat(Player player, String message, TagResolver tagResolver) {
+        return miniMessage.deserialize(message, papiTag(player), tagResolver).decoration(TextDecoration.ITALIC, false);
+    }
+
+    public String stripColour(Component component) {
+        return PlainTextComponentSerializer.plainText().serialize(component);
+    }
+
+    private @NotNull TagResolver papiTag(final @NotNull Player player) {
+        return TagResolver.resolver("papi", (argumentQueue, context) -> {
+            String papiPlaceholder = argumentQueue.popOr("papi tag requires an argument").value();
+            String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, '%' + papiPlaceholder + '%');
+            Component componentPlaceholder = miniMessage.deserialize(parsedPlaceholder);
+            return Tag.selfClosingInserting(componentPlaceholder);
+        });
+    }
+
+    public MiniMessage getMiniMessage() {
+        return miniMessage;
     }
 }

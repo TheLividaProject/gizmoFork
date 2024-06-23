@@ -2,6 +2,7 @@ package net.jeqo.gizmo.Managers;
 
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Utils.ColourUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +39,7 @@ public class ScreeningManager {
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             // check if screens.yml enable-welcome-screen = true
             if (!plugin.configManager.getScreens().getBoolean("enable-welcome-screen")) return;
-
+            
             InventoryView screen = player.openInventory(plugin.getServer().createInventory(null, 54, plugin.configManager.screenTitle()));
 
             if (plugin.configManager.getScreens().get("Items") != null) {
@@ -45,30 +47,29 @@ public class ScreeningManager {
 
                     int slot = plugin.configManager.getScreens().getInt("Items." + key + ".slot");
                     ItemStack item = new ItemStack(Material.matchMaterial(plugin.configManager.getScreens().getString("Items." + key + ".material")));
-                    ItemMeta meta = item.getItemMeta();
 
-                    if (plugin.configManager.getScreens().get("Items." + key + ".lore") != null) {
-                        List<String> lore = plugin.configManager.getScreens().getStringList("Items." + key + ".lore");
+                    item.editMeta(meta -> {
+                        if (plugin.configManager.getScreens().get("Items." + key + ".lore") != null) {
+                            List<Component> loreSetter = new ArrayList<>();
 
-                        for (int i = 0; i < lore.size(); i++) {
-                            lore.set(i, colourUtils.oldFormat(lore.get(i)));
+                            for (String string : plugin.configManager.getScreens().getStringList("Items." + key + ".lore")) {
+                                loreSetter.add(colourUtils.placeHolderMiniFormat(player, string));
+                            }
+
+                            meta.lore(loreSetter);
                         }
 
-                        meta.setLore(lore);
-                    }
+                        if (plugin.configManager.getScreens().getBoolean("Items." + key + ".hide-flags")) {
+                            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                            meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                            meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                        }
 
-                    if (plugin.configManager.getScreens().getBoolean("Items." + key + ".hide-flags")) {
-                        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-                        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-                    }
-
-                    meta.setCustomModelData(plugin.configManager.getScreens().getInt("Items." + key + ".custom-model-data"));
-                    meta.setDisplayName(colourUtils.oldFormat(plugin.configManager.getScreens().getString("Items." + key + ".name")));
-                    item.setItemMeta(meta);
+                        meta.setCustomModelData(plugin.configManager.getScreens().getInt("Items." + key + ".custom-model-data"));
+                        meta.displayName(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Items." + key + ".name")));
+                    });
 
                     screen.setItem(slot, item);
                 }
@@ -95,29 +96,29 @@ public class ScreeningManager {
 
                     int slot = plugin.configManager.getScreens().getInt("First-Join-Items" + key + ".slot");
                     ItemStack item = new ItemStack(Material.matchMaterial(plugin.configManager.getScreens().getString("First-Join-Items." + key + ".material")));
-                    ItemMeta meta = item.getItemMeta();
 
-                    if (plugin.configManager.getScreens().get("First-Join-Items." + key + ".lore") != null) {
-                        List<String> lore = plugin.configManager.getScreens().getStringList("First-Join-Items." + key + ".lore");
-                        for (int i = 0; i < lore.size(); i++) {
-                            lore.set(i, colourUtils.oldFormat(lore.get(i)));
+                    item.editMeta(meta -> {
+                        if (plugin.configManager.getScreens().get("First-Join-Items." + key + ".lore") != null) {
+                            List<Component> loreSetter = new ArrayList<>();
+
+                            for (String string : plugin.configManager.getScreens().getStringList("First-Join-Items." + key + ".lore")) {
+                                loreSetter.add(colourUtils.placeHolderMiniFormat(player, string));
+                            }
+
+                            meta.lore(loreSetter);
                         }
 
-                        meta.setLore(lore);
-                    }
+                        if (plugin.configManager.getScreens().getBoolean("First-Join-Items." + key + ".hide-flags")) {
+                            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                            meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                            meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                        }
 
-                    if (plugin.configManager.getScreens().getBoolean("First-Join-Items." + key + ".hide-flags")) {
-                        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-                        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-                    }
-
-                    meta.setCustomModelData(plugin.configManager.getScreens().getInt("First-Join-Items." + key + ".custom-model-data"));
-                    meta.setDisplayName(colourUtils.oldFormat(plugin.configManager.getScreens().getString("First-Join-Items." + key + ".name")));
-                    item.setItemMeta(meta);
+                        meta.setCustomModelData(plugin.configManager.getScreens().getInt("First-Join-Items." + key + ".custom-model-data"));
+                        meta.displayName(colourUtils.miniFormat(plugin.configManager.getScreens().getString("First-Join-Items." + key + ".name")));
+                    });
 
                     screen.setItem(slot, item);
                 }

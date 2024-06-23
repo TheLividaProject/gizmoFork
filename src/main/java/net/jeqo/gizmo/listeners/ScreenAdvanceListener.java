@@ -3,6 +3,7 @@ package net.jeqo.gizmo.listeners;
 import net.jeqo.gizmo.Events.PlayerProcessedEvent;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Utils.ColourUtils;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -13,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,7 +41,7 @@ public class ScreenAdvanceListener implements Listener {
         if (processingPlayers.contains(player.getUniqueId())) return;
 
         if (plugin.configManager.getConfig().getBoolean("enable-fade")) {
-            player.sendTitle(colourUtils.oldFormat(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background")), "", 0, 5, plugin.getConfig().getInt("fade-time"));
+            player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.parse("0"), Duration.parse("0"), Duration.parse(String.valueOf(plugin.getConfig().getInt("fade-time"))))));
         }
 
         processingPlayers.add(player.getUniqueId());
@@ -68,7 +70,7 @@ public class ScreenAdvanceListener implements Listener {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
                 } else if (command.contains("[message]")) {
                     command = command.replace("[message] ", "");
-                    player.sendMessage(colourUtils.oldFormat(player, command.replace("%player%", player.getName())));
+                    player.sendMessage(colourUtils.placeHolderMiniFormat(player, command.replace("%player%", player.getName())));
                 } else if (command.contains("[player]")) {
                     command = command.replace("[player] ", "");
                     player.performCommand(command);
@@ -97,6 +99,6 @@ public class ScreenAdvanceListener implements Listener {
         if (welcomeMessage.equals("[]")) return;
 
         welcomeMessage = welcomeMessage.replace(", ", "\n").replace("[", "").replace("]", "");
-        player.sendMessage(colourUtils.oldFormat(welcomeMessage));
+        player.sendMessage(colourUtils.miniFormat(welcomeMessage));
     }
 }
