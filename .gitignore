@@ -97,10 +97,9 @@ $RECYCLE.BIN/
 
 target/
 
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
+build/
+libs/
+.gradle/
 
 release.properties
 dependency-reduced-pom.xml
