@@ -26,7 +26,7 @@ public class ConfigManager {
             plugin.getDataFolder().mkdir();
             plugin.saveResource("config.yml", false);
             plugin.saveResource("screens.yml", false);
-            plugin.saveResource("Lang/uk-lang.yml", false);
+            plugin.saveResource("Lang/messages.yml", false);
         }
 
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));

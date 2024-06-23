@@ -59,15 +59,15 @@ public class ScreenHandlersListener implements Listener {
         }
     }
 
-    // Restore player inventory event
-    @EventHandler
-    public void restoreInv(InventoryCloseEvent event) {
-        Player player = (Player) event.getPlayer();
-
-        if (!event.getView().getTitle().equals(plugin.configManager.screenTitle()) || !event.getView().getTitle().equals(plugin.configManager.screenTitleFirstJoin())) return;
-
-        player.getInventory().setContents(plugin.screeningManager.saveInv.get(player.getName()));
-    }
+////     Restore player inventory event
+//    @EventHandler
+//    public void restoreInv(InventoryCloseEvent event) {
+//        Player player = (Player) event.getPlayer();
+//
+//        if (!event.getView().getTitle().equals(plugin.configManager.screenTitle()) || !event.getView().getTitle().equals(plugin.configManager.screenTitleFirstJoin())) return;
+//
+//        player.getInventory().setContents(plugin.screeningManager.saveInv.get(player.getName()));
+//    }
 
     // Disable all potion effects
     private void disableEffects(Player player) {

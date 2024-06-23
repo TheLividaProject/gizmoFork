@@ -18,7 +18,6 @@ public class ScreeningManager {
 
     private final Gizmo plugin;
 
-    public HashMap<String, ItemStack[]> saveInv = new HashMap<>();
     public HashMap<UUID, Boolean> playersScreenActive = new HashMap<>();
 
     private final ColourUtils colourUtils = new ColourUtils();
@@ -32,17 +31,14 @@ public class ScreeningManager {
         // Store the player's ID and set the screen to active
         playersScreenActive.put(player.getUniqueId(), true);
 
-        // Store and clear the player's inventory
-        saveInv.put(player.getPlayer().getName(), player.getPlayer().getInventory().getContents());
-
-        player.getPlayer().getInventory().clear();
+        player.getInventory().clear();
 
         // Begin the screen sequence
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             // check if screens.yml enable-welcome-screen = true
             if (!plugin.configManager.getScreens().getBoolean("enable-welcome-screen")) return;
 
-            InventoryView screen = player.getPlayer().openInventory(plugin.getServer().createInventory(null, 54, plugin.configManager.screenTitle()));
+            InventoryView screen = player.openInventory(plugin.getServer().createInventory(null, 54, plugin.configManager.screenTitle()));
 
             if (plugin.configManager.getScreens().get("Items") != null) {
                 for (String key : plugin.configManager.getScreens().getConfigurationSection("Items").getKeys(false)) {
@@ -85,15 +81,14 @@ public class ScreeningManager {
         // Store the player's ID and set the screen to active
         plugin.screeningManager.playersScreenActive.put(player.getUniqueId(), true);
         // Store and clear the player's inventory
-        plugin.screeningManager.saveInv.put(player.getPlayer().getName(), player.getPlayer().getInventory().getContents());
-        player.getPlayer().getInventory().clear();
+        player.getInventory().clear();
 
         // Begin the screen sequence
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             // check if screens.yml enable-first-join-welcome-screen = true
             if (!plugin.configManager.getScreens().getBoolean("enable-first-join-welcome-screen")) return;
 
-            InventoryView screen = player.getPlayer().openInventory(plugin.getServer().createInventory(null, 54, plugin.configManager.screenTitleFirstJoin()));
+            InventoryView screen = player.openInventory(plugin.getServer().createInventory(null, 54, plugin.configManager.screenTitleFirstJoin()));
 
             if (plugin.configManager.getScreens().get("First-Join-Items") != null) {
                 for (String key : plugin.configManager.getScreens().getConfigurationSection("First-Join-Items").getKeys(false)) {

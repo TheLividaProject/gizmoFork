@@ -26,14 +26,8 @@ public class GizmoFadeCommand implements SubCommands {
                 player.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
                 return;
             }
-
-            function(player, args);
-        } else {
-            function(sender, args);
         }
-    }
 
-    private void function(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.fade.usage")));
             return;

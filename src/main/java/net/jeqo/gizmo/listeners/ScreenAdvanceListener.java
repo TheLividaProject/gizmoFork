@@ -1,5 +1,6 @@
 package net.jeqo.gizmo.listeners;
 
+import net.jeqo.gizmo.Events.PlayerProcessedEvent;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Utils.ColourUtils;
 import org.bukkit.Bukkit;
@@ -77,29 +78,21 @@ public class ScreenAdvanceListener implements Listener {
                 }
             });
         } finally {
+            Bukkit.getServer().getPluginManager().callEvent(new PlayerProcessedEvent(player));
             processingPlayers.remove(player.getUniqueId());
             plugin.screeningManager.playersScreenActive.remove(player.getUniqueId());
         }
 
         if (!player.hasPlayedBefore()) {
             if (!plugin.configManager.getScreens().getBoolean("first-join-welcome-screen")) return;
-            welcomeMessageFirstJoin(player);
+            welcomeMessage(player, "first-join-welcome-message");
         } else {
-            welcomeMessage(player);
+            welcomeMessage(player, "welcome-message");
         }
     }
 
-    private void welcomeMessage(Player player) {
-        String welcomeMessage = (plugin.configManager.getLang().getString("welcome-message"));
-
-        if (welcomeMessage.equals("[]")) return;
-
-        welcomeMessage = welcomeMessage.replace(", ", "\n").replace("[", "").replace("]", "");
-        player.sendMessage(colourUtils.oldFormat(welcomeMessage));
-    }
-
-    private void welcomeMessageFirstJoin(Player player) {
-        String welcomeMessage = (plugin.configManager.getLang().getString("first-join-welcome-message"));
+    private void welcomeMessage(Player player, String message) {
+        String welcomeMessage = (plugin.configManager.getLang().getString(message));
 
         if (welcomeMessage.equals("[]")) return;
 

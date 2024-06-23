@@ -3,6 +3,7 @@ package net.jeqo.gizmo;
 import net.jeqo.gizmo.Managers.Commands.GizmoCommandManager;
 import net.jeqo.gizmo.data.UpdateChecker;
 import net.jeqo.gizmo.listeners.ClickableItemsListener;
+import net.jeqo.gizmo.listeners.GUI.GUIClickListener;
 import net.jeqo.gizmo.listeners.PlayerScreeningListener;
 import net.jeqo.gizmo.listeners.ScreenAdvanceListener;
 import net.jeqo.gizmo.listeners.ScreenHandlersListener;
@@ -57,6 +58,8 @@ public class Gizmo extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ScreenHandlersListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ScreenAdvanceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ClickableItemsListener(this), this);
+
+        Bukkit.getPluginManager().registerEvents(new GUIClickListener(this), this);
     }
 
     private void updateChecker() {

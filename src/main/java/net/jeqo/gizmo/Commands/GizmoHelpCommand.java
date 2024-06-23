@@ -25,14 +25,8 @@ public class GizmoHelpCommand implements SubCommands {
                 player.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
                 return;
             }
-
-            function(player);
-        } else {
-            function(sender);
         }
-    }
 
-    private void function(CommandSender sender) {
         plugin.configManager.getLang().getStringList("commands.help.usage").forEach(string -> {
             sender.sendMessage(colourUtils.oldFormat(string));
         });

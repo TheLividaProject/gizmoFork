@@ -3,6 +3,7 @@ package net.jeqo.gizmo.Commands;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Managers.Commands.SubCommands;
 import net.jeqo.gizmo.Utils.ColourUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,18 +26,14 @@ public class GizmoReloadCommand implements SubCommands {
                 player.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
                 return;
             }
-
-            function(player);
-        } else {
-            function(sender);
         }
-    }
 
-    private void function(CommandSender sender) {
+        //TODO load this async
         plugin.configManager.load();
 
         sender.sendMessage(colourUtils.oldFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.reload.config-reloaded")));
     }
+
 
     @Override
     public String name() {
