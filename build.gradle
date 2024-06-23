@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+group 'net.jeqo'
+version '1.2.2'
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name = "sonatype-oss-snapshots1"
+        url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    }
+
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+
+    // Local Repositories
+    mavenLocal()
+
+    maven {
+        url 'C:\\Users\\Livid\\.m2\\repository'
+    }
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    compileOnly('me.clip:placeholderapi:2.11.3')
+
+    // Local Dependencies
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
