@@ -64,7 +64,7 @@ public class Gizmo extends JavaPlugin {
 
     private void updateChecker() {
         new UpdateChecker(this, 106024).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) return;
+            if (this.getPluginMeta().getVersion().equals(version)) return;
 
             this.getLogger().warning("|---[ GIZMO ]--------------------------------------------------------|");
             this.getLogger().warning("|                  There is a new update available!                  |");

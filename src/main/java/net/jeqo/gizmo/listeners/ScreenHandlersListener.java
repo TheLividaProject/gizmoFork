@@ -1,7 +1,9 @@
 package net.jeqo.gizmo.listeners;
 
+import net.jeqo.gizmo.Events.PlayerProcessedEvent;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Utils.ColourUtils;
+import net.jeqo.gizmo.Utils.ItemUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,17 +12,16 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.potion.PotionEffectType;
+
+import java.io.IOException;
 
 public class ScreenHandlersListener implements Listener {
 
     private final Gizmo plugin;
 
+    private final ItemUtils itemUtils = new ItemUtils();
     private final ColourUtils colourUtils = new ColourUtils();
 
     public ScreenHandlersListener(Gizmo plugin) {
@@ -59,15 +60,31 @@ public class ScreenHandlersListener implements Listener {
         }
     }
 
-////     Restore player inventory event
-//    @EventHandler
-//    public void restoreInv(InventoryCloseEvent event) {
-//        Player player = (Player) event.getPlayer();
-//
-//        if (!event.getView().getTitle().equals(plugin.configManager.screenTitle()) || !event.getView().getTitle().equals(plugin.configManager.screenTitleFirstJoin())) return;
-//
-//        player.getInventory().setContents(plugin.screeningManager.saveInv.get(player.getName()));
-//    }
+    @EventHandler
+    public void onProcess(PlayerProcessedEvent event) {
+        Player player = event.getPlayer();
+        String storedInventory = plugin.screeningManager.playersStoredInventory.get(player.getUniqueId());
+        if (storedInventory == null) return;
+
+        try {
+            player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        String storedInventory = plugin.screeningManager.playersStoredInventory.get(player.getUniqueId());
+        if (storedInventory == null) return;
+
+        try {
+            player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // Disable all potion effects
     private void disableEffects(Player player) {

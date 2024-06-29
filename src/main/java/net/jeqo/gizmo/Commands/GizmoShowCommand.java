@@ -1,7 +1,9 @@
 package net.jeqo.gizmo.Commands;
 
+import net.jeqo.gizmo.GUI.WelcomeScreenMenu;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Managers.Commands.SubCommands;
+import net.jeqo.gizmo.Managers.GUI.GUIManager;
 import net.jeqo.gizmo.Utils.ColourUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -40,7 +42,7 @@ public class GizmoShowCommand implements SubCommands {
             return;
         }
 
-        plugin.screeningManager.welcomeScreen(target);
+        plugin.screeningManager.displayScreen(target, "Items", "enable-welcome-screen");
         sender.sendMessage(colourUtils.placeHolderMiniFormat(target, plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.show.showing")));
     }
 

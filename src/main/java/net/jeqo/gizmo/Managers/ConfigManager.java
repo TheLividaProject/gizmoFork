@@ -1,8 +1,6 @@
 package net.jeqo.gizmo.Managers;
 
 import net.jeqo.gizmo.Gizmo;
-import net.jeqo.gizmo.Utils.ColourUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

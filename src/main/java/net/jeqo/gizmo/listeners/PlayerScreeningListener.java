@@ -1,6 +1,8 @@
 package net.jeqo.gizmo.listeners;
 
+import net.jeqo.gizmo.GUI.WelcomeScreenMenu;
 import net.jeqo.gizmo.Gizmo;
+import net.jeqo.gizmo.Managers.GUI.GUIManager;
 import net.jeqo.gizmo.Utils.ColourUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -56,8 +58,8 @@ public class PlayerScreeningListener implements Listener {
 
                 // Display first time welcome screen
                 if (!player.hasPlayedBefore()) {
-                    if (plugin.configManager.getScreens().getBoolean("first-join-welcome-screen")) {
-                        plugin.screeningManager.welcomeScreenInitial(player);
+                    if (plugin.configManager.getScreens().getBoolean("enable-first-join-welcome-screen")) {
+                        plugin.screeningManager.displayScreen(player, "First-Join-Items", "enable-first-join-welcome-screen");
                         return;
                     }
                 }
@@ -67,10 +69,10 @@ public class PlayerScreeningListener implements Listener {
                     // Check if the player has already seen the screen this server session
                     if (playerTracker.get(player.getUniqueId()) == null) {
                         playerTracker.put(player.getUniqueId(), String.valueOf(1));
-                        plugin.screeningManager.welcomeScreen(player);
+                        GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
                     }
                 } else if (!plugin.configManager.getScreens().getBoolean("once-per-restart")) {
-                    plugin.screeningManager.welcomeScreen(player);
+                    GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
                 }
 
                 break;
@@ -80,7 +82,7 @@ public class PlayerScreeningListener implements Listener {
                 if (plugin.configManager.getConfig().getBoolean("debug-mode")) {
                     player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfNo server resource pack detected and/or debug mode is enabled."));
                     player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfSending welcome screen..."));
-                    plugin.screeningManager.welcomeScreen(player);
+                    GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
                 } else {
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
 
