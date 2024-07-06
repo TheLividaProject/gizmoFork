@@ -27,7 +27,7 @@ public class ConfigManager {
 
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         screens = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "screens.yml"));
-        lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Lang/" + config.getString("lang")));
+        lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "Lang/messages.yml"));
     }
 
     public String shift48() {

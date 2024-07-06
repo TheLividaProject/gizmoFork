@@ -7,14 +7,17 @@ import net.jeqo.gizmo.Utils.ItemUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class ScreeningManager {
 
     private final Gizmo plugin;
 
-    public HashMap<UUID, Boolean> playersScreenActive = new HashMap<>();
+    public HashSet<UUID> playersScreenActive = new HashSet<>();
     public HashMap<UUID, String> playersStoredInventory = new HashMap<>();
+
+    public HashSet<UUID> processingPlayers = new HashSet<>();
 
     private final ItemUtils itemUtils = new ItemUtils();
 
@@ -24,9 +27,9 @@ public class ScreeningManager {
 
     public void displayScreen(Player player, String configOption, String configBoolean) {
         if (!plugin.configManager.getScreens().getBoolean(configBoolean)) return;
-        
-        playersScreenActive.put(player.getUniqueId(), true);
-        playersStoredInventory.put(player.getUniqueId(),itemUtils.itemStackArrayToBase64(player.getInventory().getContents()));
+
+        playersScreenActive.add(player.getUniqueId());
+        playersStoredInventory.put(player.getUniqueId(), itemUtils.itemStackArrayToBase64(player.getInventory().getContents()));
 
         player.getInventory().clear();
         GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, configOption));

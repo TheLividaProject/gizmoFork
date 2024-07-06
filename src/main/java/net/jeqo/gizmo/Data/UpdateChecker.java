@@ -1,4 +1,4 @@
-package net.jeqo.gizmo.data;
+package net.jeqo.gizmo.Data;
 
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Utils.ColourUtils;

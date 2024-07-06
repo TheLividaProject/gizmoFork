@@ -1,4 +1,4 @@
-package net.jeqo.gizmo.listeners;
+package net.jeqo.gizmo.Listeners;
 
 import net.jeqo.gizmo.Events.PlayerProcessedEvent;
 import net.jeqo.gizmo.Gizmo;
@@ -98,7 +98,7 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
         event.setCancelled(true);
     }
 
@@ -107,7 +107,7 @@ public class ScreenHandlersListener implements Listener {
         Entity entity = event.getEntity();
 
         if (!(entity instanceof Player player)) return;
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
@@ -115,8 +115,7 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onSlotClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
-
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
         event.setCancelled(true);
     }
 
@@ -128,7 +127,7 @@ public class ScreenHandlersListener implements Listener {
         if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         if (!(entity instanceof Player player)) return;
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
@@ -140,7 +139,7 @@ public class ScreenHandlersListener implements Listener {
         if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         if (!(entity instanceof Player player)) return;
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
@@ -150,7 +149,7 @@ public class ScreenHandlersListener implements Listener {
         if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         Player player = event.getPlayer();
-        if (plugin.screeningManager.playersScreenActive.get(player.getUniqueId()) == null) return;
+        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }

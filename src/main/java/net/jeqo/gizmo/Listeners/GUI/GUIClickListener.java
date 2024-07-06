@@ -1,4 +1,4 @@
-package net.jeqo.gizmo.listeners.GUI;
+package net.jeqo.gizmo.Listeners.GUI;
 
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Managers.GUI.GUIManager;
@@ -52,6 +52,7 @@ public class GUIClickListener implements Listener {
 
         if (menuInventoryHolder == null) return;
 
+        menuInventoryHolder.handClose(player, event);
         GUIManager.getPlayerGUICache().remove(player);
     }
 }

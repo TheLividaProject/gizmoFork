@@ -1,4 +1,4 @@
-package net.jeqo.gizmo.listeners;
+package net.jeqo.gizmo.Listeners;
 
 import net.jeqo.gizmo.GUI.WelcomeScreenMenu;
 import net.jeqo.gizmo.Gizmo;
