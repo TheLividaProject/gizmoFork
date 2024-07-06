@@ -26,10 +26,10 @@ Items:
     material: DIAMOND_SWORD
     custom-model-data: 1
     slot: 44 # Valid slot values: 0-89; 54-89 are the player's inventory.
-    name: '#ee0000The Gizmo Sword'
+    name: '<#EE0000>The Gizmo Sword'
     lore:
-      - '#48cfa9Lores have multi-line'
-      - '#f2991dand hex support!'
+      - '<#48CFA9>Lores have multi-line'
+      - '<#F2991D>and hex support!'
     hide-flags: true # If true, lines in the lore such as "Damage: 4" will be hidden.
     # Execute commands from the player or console, or send a message.
     # Valid prefixes: [player], [console], [message]
@@ -42,15 +42,15 @@ Items:
   another-item:
     material: GLOW_BERRIES
     slot: 53
-    name: '&6Gizmo Glow Berries'
+    name: '<#FFAA00>Gizmo Glow Berries'
     lore:
-      - '&7This is an item lore'
+      - '<#AAAAAA>This is an item lore'
   a-shiny-diamond:
     material: DIAMOND
     slot: 62
-    name: '&bShiny Diamond'
+    name: '<#55FFFF>Shiny Diamond'
     lore:
-      - '&3Property of Jeqo'
+      - '<#00AAAA>Property of Jeqo'
 
 
 
@@ -63,22 +63,22 @@ First-Join-Items:
     material: DIAMOND_SWORD
     custom-model-data: 1
     slot: 44
-    name: '#ee0000The Gizmo Sword'
+    name: '<#EE0000>The Gizmo Sword'
     lore:
-      - '#48cfa9Lores have multi-line'
-      - '#f2991dand hex support!'
+      - '<#48CFA9>Lores have multi-line'
+      - '<#F2991D>and hex support!'
     hide-flags: true
   another-item:
     material: DIRT
     custom-model-data: 1
     slot: 53
-    name: '&aDirt'
+    name: '<#55FF55>Dirt'
     lore:
-      - '&7Found on the ground.'
+      - '<#AAAAAA>Found on the ground.'
   a-shiny-diamond:
     material: DIAMOND
     custom-model-data: 1
     slot: 62
-    name: '&bShiny Diamond'
+    name: '<#55FFFF>Shiny Diamond'
     lore:
-      - '&3Property of Jeqo'
+      - '<#00AAAA>Property of Jeqo'
