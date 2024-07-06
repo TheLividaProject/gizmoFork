@@ -1,4 +1,4 @@
-# All messages support Minecraft (&f) and hex (#ffffff) color codes.
+# All messages support MiniMessage <#FC1C1C>
 # Kick-on-decline and welcome messages have multi-line support.
 
 prefix: "<#EE0000>[Gizmo] "
