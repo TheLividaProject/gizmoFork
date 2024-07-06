@@ -1,44 +1,44 @@
 # All messages support Minecraft (&f) and hex (#ffffff) color codes.
 # Kick-on-decline and welcome messages have multi-line support.
 
-prefix: "#ee0000[Gizmo] "
+prefix: "<#EE0000>[Gizmo] "
 
 welcome-message:
   - ' '
   - ' '
-  - '                           #fc1c1cGizmo - Made by Jeqo'
-  - '                             #acb5bfwww.jeqo.net/gizmo'
+  - '                           <#FC1C1C>Gizmo - Made by Jeqo'
+  - '                             <#ACB5BF>www.jeqo.net/gizmo'
   - ' '
   - ' '
 first-join-welcome-message:
   - ' '
   - ' '
-  - '                           #fc1c1cGizmo - Made by Jeqo'
-  - '                             #acb5bfwww.jeqo.net/gizmo'
+  - '                           <#FC1C1C>Gizmo - Made by Jeqo'
+  - '                             <#ACB5BF>www.jeqo.net/gizmo'
   - ' '
   - ' '
 
 resource-pack:
   kick-on-decline:
-    - '&cYou must download the server resource pack to play!'
-  no-pack-loaded: '&7Server resource pack not detected-skipping welcome screen.'
+    - '<#FF5555>You must download the server resource pack to play!'
+  no-pack-loaded: '<#AAAAAA>Server resource pack not detected-skipping welcome screen.'
 
 commands:
-  no-permission: '#fc1c1cAccess denied.'
+  no-permission: '<#FC1C1C>Access denied.'
   fade:
-    usage: "&7Usage: /gizmo fade [player] <in> <stay> <out>"
-    invalid-player: "&7That player is not online!"
-    invalid-numbers-amount: "&7You need to provide at least 3 numbers."
-    invalid-numbers: "&7Only numbers can be used for time values!"
+    usage: "<#FF5555>Usage: /gizmo fade [player] <in> <stay> <out>"
+    invalid-player: "<#FF5555>That player is not online!"
+    invalid-numbers-amount: "<#FF5555>You need to provide at least 3 numbers."
+    invalid-numbers: "<#FF5555>Only numbers can be used for time values!"
   show:
-    usage: "&7Usage: /gizmo show [player]"
-    invalid-player: "&7That player is not online!"
-    showing: "&7Displaying screen to %player_name%"
+    usage: "<#FF5555>Usage: /gizmo show [player]"
+    invalid-player: "<#FF5555>That player is not online!"
+    showing: "<#FF5555>Displaying screen to %player_name%"
   reload:
-    config-reloaded: '&7Configuration reloaded.'
+    config-reloaded: '<#AAAAAA>Configuration reloaded.'
   help:
     usage:
-      - "#ee0000Usages:"
-      - "&f/gizmo fade <player> <in> <stay> <out> &7- Displays a fade."
-      - "&f/gizmo show <player> &7- Force displays the welcome screen."
-      - "&f/gizmo reload &7- Reloads the Gizmo configs (not recommended)."
+      - "<#EE0000>Usages:"
+      - "<#FFFFFF>/gizmo fade <player> <in> <stay> <out> <#AAAAAA>- Displays a fade."
+      - "<#FFFFFF>/gizmo show <player> <#AAAAAA>- Force displays the welcome screen."
+      - "<#FFFFFF>/gizmo reload <#AAAAAA>- Reloads the Gizmo configs."

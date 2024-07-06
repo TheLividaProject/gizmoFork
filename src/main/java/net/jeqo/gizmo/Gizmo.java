@@ -1,13 +1,13 @@
 package net.jeqo.gizmo;
 
 import net.jeqo.gizmo.Managers.Commands.GizmoCommandManager;
-import net.jeqo.gizmo.Data.UpdateChecker;
+import net.jeqo.gizmo.data.UpdateChecker;
 import net.jeqo.gizmo.Listeners.GUI.GUIClickListener;
 import net.jeqo.gizmo.Listeners.PlayerScreeningListener;
 import net.jeqo.gizmo.Listeners.ScreenHandlersListener;
 import net.jeqo.gizmo.Managers.ConfigManager;
 import net.jeqo.gizmo.Managers.ScreeningManager;
-import net.jeqo.gizmo.Data.*;
+import net.jeqo.gizmo.data.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
