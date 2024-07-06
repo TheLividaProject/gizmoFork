@@ -10,6 +10,6 @@ public interface MenuInventoryHolder extends InventoryHolder {
     String getName();
     int getSize();
     MenuInventoryHolder handleClick(Player player, ItemStack item, InventoryClickEvent event);
-    MenuInventoryHolder handClose(Player player, InventoryCloseEvent event);
+    MenuInventoryHolder handleClose(Player player, InventoryCloseEvent event);
     boolean cancelEvent();
 }

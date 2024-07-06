@@ -55,7 +55,7 @@ public class Gizmo extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerScreeningListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ScreenHandlersListener(this), this);
 
-        Bukkit.getPluginManager().registerEvents(new GUIClickListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new GUIClickListener(), this);
     }
 
     private void updateChecker() {

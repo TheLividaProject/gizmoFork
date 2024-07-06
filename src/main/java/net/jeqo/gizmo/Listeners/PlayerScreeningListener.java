@@ -4,6 +4,7 @@ import net.jeqo.gizmo.GUI.WelcomeScreenMenu;
 import net.jeqo.gizmo.Gizmo;
 import net.jeqo.gizmo.Managers.GUI.GUIManager;
 import net.jeqo.gizmo.Utils.ColourUtils;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.potion.PotionEffectType;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -35,8 +37,7 @@ public class PlayerScreeningListener implements Listener {
             case ACCEPTED:
                 // Display the background unicode during the delay
                 if (!plugin.configManager.getConfig().getBoolean("delay-background")) return;
-                player.sendTitle(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background"), "", 0, 999999, 0);
-                break;
+                player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.parse("0"), Duration.parse("999999"), Duration.parse("0"))));
             case SUCCESSFULLY_LOADED:
                 // Play a configured sound when the pack is loaded
                 try {
@@ -74,8 +75,6 @@ public class PlayerScreeningListener implements Listener {
                 } else if (!plugin.configManager.getScreens().getBoolean("once-per-restart")) {
                     GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
                 }
-
-                break;
             case DECLINED:
             case FAILED_DOWNLOAD:
                 // Debug mode check; if enabled it will still send the player the welcome screen
@@ -92,7 +91,6 @@ public class PlayerScreeningListener implements Listener {
                         }
                     }
                 }
-                break;
         }
     }
 }

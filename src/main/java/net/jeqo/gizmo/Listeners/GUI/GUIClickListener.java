@@ -12,12 +12,6 @@ import org.bukkit.event.inventory.InventoryType;
 
 public class GUIClickListener implements Listener {
 
-    private final Gizmo plugin;
-
-    public GUIClickListener(Gizmo plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) return;
@@ -52,7 +46,7 @@ public class GUIClickListener implements Listener {
 
         if (menuInventoryHolder == null) return;
 
-        menuInventoryHolder.handClose(player, event);
+        menuInventoryHolder.handleClose(player, event);
         GUIManager.getPlayerGUICache().remove(player);
     }
 }

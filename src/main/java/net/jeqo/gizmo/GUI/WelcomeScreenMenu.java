@@ -125,7 +125,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
     }
 
     @Override
-    public MenuInventoryHolder handClose(Player player, InventoryCloseEvent event) {
+    public MenuInventoryHolder handleClose(Player player, InventoryCloseEvent event) {
         if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return null;
         if (plugin.screeningManager.processingPlayers.contains(player.getUniqueId())) return null;
 
