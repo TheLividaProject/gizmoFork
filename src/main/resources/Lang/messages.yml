@@ -33,7 +33,7 @@ commands:
   show:
     usage: "<#FF5555>Usage: /gizmo show [player]"
     invalid-player: "<#FF5555>That player is not online!"
-    showing: "<#FF5555>Displaying screen to %player_name%"
+    showing: "<#FF5555>Displaying screen to <papi:player_name>"
   reload:
     config-reloaded: '<#AAAAAA>Configuration reloaded.'
   help:
