@@ -130,7 +130,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
         if (plugin.screeningManager.processingPlayers.contains(player.getUniqueId())) return null;
 
         if (plugin.configManager.getConfig().getBoolean("enable-fade")) {
-            player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.parse("0"), Duration.parse("0"), Duration.parse(String.valueOf(plugin.getConfig().getInt("fade-time"))))));
+            player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(plugin.configManager.getConfig().getInt("fade-time")))));
         }
 
         plugin.screeningManager.processingPlayers.add(player.getUniqueId());
@@ -171,7 +171,6 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
         } finally {
             Bukkit.getServer().getPluginManager().callEvent(new PlayerProcessedEvent(player));
             plugin.screeningManager.processingPlayers.remove(player.getUniqueId());
-            plugin.screeningManager.playersScreenActive.remove(player.getUniqueId());
         }
 
         if (!player.hasPlayedBefore()) {

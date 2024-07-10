@@ -52,7 +52,7 @@ public class GizmoFadeCommand implements SubCommands {
             return;
         }
 
-        target.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.parse(args[1]), Duration.parse(args[2]), Duration.parse(args[3]))));
+        target.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(Long.parseLong(args[1])), Duration.ofMillis(Long.parseLong(args[2])), Duration.ofMillis(Long.parseLong(args[3])))));
     }
 
     @Override

@@ -37,7 +37,7 @@ public class PlayerScreeningListener implements Listener {
             case ACCEPTED:
                 // Display the background unicode during the delay
                 if (!plugin.configManager.getConfig().getBoolean("delay-background")) return;
-                player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.parse("0"), Duration.parse("999999"), Duration.parse("0"))));
+                player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(999999), Duration.ofMillis(0))));
             case SUCCESSFULLY_LOADED:
                 // Play a configured sound when the pack is loaded
                 try {
@@ -70,10 +70,10 @@ public class PlayerScreeningListener implements Listener {
                     // Check if the player has already seen the screen this server session
                     if (playerTracker.get(player.getUniqueId()) == null) {
                         playerTracker.put(player.getUniqueId(), String.valueOf(1));
-                        GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
+                        plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
                     }
                 } else if (!plugin.configManager.getScreens().getBoolean("once-per-restart")) {
-                    GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
+                    plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
                 }
             case DECLINED:
             case FAILED_DOWNLOAD:
@@ -81,7 +81,7 @@ public class PlayerScreeningListener implements Listener {
                 if (plugin.configManager.getConfig().getBoolean("debug-mode")) {
                     player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfNo server resource pack detected and/or debug mode is enabled."));
                     player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfSending welcome screen..."));
-                    GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, "Items"));
+                    plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
                 } else {
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
 

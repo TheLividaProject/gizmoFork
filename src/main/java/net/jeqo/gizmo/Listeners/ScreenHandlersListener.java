@@ -68,6 +68,8 @@ public class ScreenHandlersListener implements Listener {
 
         try {
             player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
+            plugin.screeningManager.playersStoredInventory.remove(player.getUniqueId());
+            plugin.screeningManager.playersScreenActive.remove(player.getUniqueId());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,6 +83,7 @@ public class ScreenHandlersListener implements Listener {
 
         try {
             player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
+            plugin.screeningManager.playersStoredInventory.remove(player.getUniqueId());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
