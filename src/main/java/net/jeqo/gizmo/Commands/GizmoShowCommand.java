@@ -25,25 +25,25 @@ public class GizmoShowCommand implements SubCommands {
     public void onCommand(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
             if (!player.hasPermission("gizmo.show")) {
-                player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
+                player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + plugin.getConfigManager().getLang().getString("commands.no-permission")));
                 return;
             }
         }
 
         if (args.length == 0) {
-            sender.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.show.usage")));
+            sender.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + plugin.getConfigManager().getLang().getString("commands.show.usage")));
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            sender.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.show.invalid-player")));
+            sender.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + plugin.getConfigManager().getLang().getString("commands.show.invalid-player")));
             return;
         }
 
-        plugin.screeningManager.displayScreen(target, "Items", "enable-welcome-screen");
-        sender.sendMessage(colourUtils.placeHolderMiniFormat(target, plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.show.showing")));
+        plugin.getScreeningManager().displayScreen(target, "Items", "enable-welcome-screen");
+        sender.sendMessage(colourUtils.placeHolderMiniFormat(target, plugin.getConfigManager().getLang().getString("prefix") + plugin.getConfigManager().getLang().getString("commands.show.showing")));
     }
 
     @Override

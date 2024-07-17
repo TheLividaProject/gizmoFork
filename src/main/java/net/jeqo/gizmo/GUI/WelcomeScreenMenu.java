@@ -41,24 +41,24 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
 
         this.inventory = Bukkit.createInventory(this, getSize(), getName());
 
-        if (plugin.configManager.getScreens().getConfigurationSection(configOption) != null) {
-            for (String key : plugin.configManager.getScreens().getConfigurationSection(configOption).getKeys(false)) {
+        if (plugin.getConfigManager().getScreens().getConfigurationSection(configOption) != null) {
+            for (String key : plugin.getConfigManager().getScreens().getConfigurationSection(configOption).getKeys(false)) {
 
-                int slot = plugin.configManager.getScreens().getInt(configOption +  "." + key + ".slot");
-                ItemStack item = new ItemStack(Material.valueOf(plugin.configManager.getScreens().getString(configOption +  "." + key + ".material")));
+                int slot = plugin.getConfigManager().getScreens().getInt(configOption +  "." + key + ".slot");
+                ItemStack item = new ItemStack(Material.valueOf(plugin.getConfigManager().getScreens().getString(configOption +  "." + key + ".material")));
 
                 item.editMeta(meta -> {
-                    if (plugin.configManager.getScreens().get(configOption +  "." + key + ".lore") != null) {
+                    if (plugin.getConfigManager().getScreens().get(configOption +  "." + key + ".lore") != null) {
                         List<Component> loreSetter = new ArrayList<>();
 
-                        for (String string : plugin.configManager.getScreens().getStringList(configOption +  "." + key + ".lore")) {
+                        for (String string : plugin.getConfigManager().getScreens().getStringList(configOption +  "." + key + ".lore")) {
                             loreSetter.add(colourUtils.placeHolderMiniFormat(player, string));
                         }
 
                         meta.lore(loreSetter);
                     }
 
-                    if (plugin.configManager.getScreens().getBoolean(configOption +  "." + key + ".hide-flags")) {
+                    if (plugin.getConfigManager().getScreens().getBoolean(configOption +  "." + key + ".hide-flags")) {
                         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
                         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -66,10 +66,10 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
                         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
                     }
 
-                    meta.setCustomModelData(plugin.configManager.getScreens().getInt(configOption +  "." + key + ".custom-model-data"));
-                    meta.displayName(colourUtils.miniFormat(plugin.configManager.getScreens().getString(configOption +  "." + key + ".name")));
+                    meta.setCustomModelData(plugin.getConfigManager().getScreens().getInt(configOption +  "." + key + ".custom-model-data"));
+                    meta.displayName(colourUtils.miniFormat(plugin.getConfigManager().getScreens().getString(configOption +  "." + key + ".name")));
 
-                    meta.getPersistentDataContainer().set(itemDataKey, new ItemDataPDC(), new ItemData(slot, plugin.configManager.getScreens().getString("Items." + key)));
+                    meta.getPersistentDataContainer().set(itemDataKey, new ItemDataPDC(), new ItemData(slot, plugin.getConfigManager().getScreens().getString("Items." + key)));
                 });
 
                 inventory.setItem(slot, item);
@@ -84,7 +84,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
 
     @Override
     public String getName() {
-        return plugin.configManager.screenTitle();
+        return plugin.getConfigManager().screenTitle();
     }
 
     @Override
@@ -102,10 +102,10 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
 
         String itemName = itemData.getItemOption();
 
-        if (plugin.configManager.getScreens().getBoolean("Items." + itemName + ".close-on-click")) player.closeInventory();
-        if (plugin.configManager.getScreens().getString("Items." + itemName + ".commands") == null) return null;
+        if (plugin.getConfigManager().getScreens().getBoolean("Items." + itemName + ".close-on-click")) player.closeInventory();
+        if (plugin.getConfigManager().getScreens().getString("Items." + itemName + ".commands") == null) return null;
 
-        for (String command : plugin.configManager.getScreens().getStringList("Items." + itemName + ".commands")) {
+        for (String command : plugin.getConfigManager().getScreens().getStringList("Items." + itemName + ".commands")) {
             if (command.contains("[console]")) {
                 command = command.replace("[console] ", "");
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
@@ -116,7 +116,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
                 command = command.replace("[player] ", "");
                 player.performCommand(command);
             } else {
-                player.sendMessage(plugin.configManager.getLang().getString("prefix") + "An error occurred. Please review the console for more information.");
+                player.sendMessage(plugin.getConfigManager().getLang().getString("prefix") + "An error occurred. Please review the console for more information.");
                 plugin.getLogger().warning("\"" + itemName + "\"" + " (screens.yml) has a command with an invalid format.");
             }
         }
@@ -126,20 +126,20 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
 
     @Override
     public MenuInventoryHolder handleClose(Player player, InventoryCloseEvent event) {
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return null;
-        if (plugin.screeningManager.processingPlayers.contains(player.getUniqueId())) return null;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return null;
+        if (plugin.getScreeningManager().processingPlayers.contains(player.getUniqueId())) return null;
 
-        if (plugin.configManager.getConfig().getBoolean("enable-fade")) {
-            player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(plugin.configManager.getConfig().getInt("fade-time")))));
+        if (plugin.getConfigManager().getConfig().getBoolean("enable-fade")) {
+            player.showTitle(Title.title(colourUtils.miniFormat(plugin.getConfigManager().getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(plugin.getConfigManager().getConfig().getInt("fade-time")))));
         }
 
-        plugin.screeningManager.processingPlayers.add(player.getUniqueId());
+        plugin.getScreeningManager().processingPlayers.add(player.getUniqueId());
 
         try {
-            if (plugin.configManager.getConfig().getBoolean("sound-on-advance.enable")) {
-                String soundID = plugin.configManager.getConfig().getString("sound-on-advance.sound");
-                float soundVolume = Float.parseFloat(plugin.configManager.getConfig().getString("sound-on-advance.volume"));
-                float soundPitch = Float.parseFloat(plugin.configManager.getConfig().getString("sound-on-advance.pitch"));
+            if (plugin.getConfigManager().getConfig().getBoolean("sound-on-advance.enable")) {
+                String soundID = plugin.getConfigManager().getConfig().getString("sound-on-advance.sound");
+                float soundVolume = Float.parseFloat(plugin.getConfigManager().getConfig().getString("sound-on-advance.volume"));
+                float soundPitch = Float.parseFloat(plugin.getConfigManager().getConfig().getString("sound-on-advance.pitch"));
 
                 try {
                     Sound sound = Sound.valueOf(soundID.toUpperCase());
@@ -153,7 +153,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
         }
 
         try {
-            plugin.configManager.getConfig().getStringList("commands-on-advance").forEach(command -> {
+            plugin.getConfigManager().getConfig().getStringList("commands-on-advance").forEach(command -> {
                 if (command.contains("[console]")) {
                     command = command.replace("[console] ", "");
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
@@ -164,17 +164,17 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
                     command = command.replace("[player] ", "");
                     player.performCommand(command);
                 } else {
-                    player.sendMessage(plugin.configManager.getLang().getString("prefix") + "An error occurred. Please review the console for more information.");
+                    player.sendMessage(plugin.getConfigManager().getLang().getString("prefix") + "An error occurred. Please review the console for more information.");
                     plugin.getLogger().warning("Commands-on-advance (config.yml) has a command with an invalid format.");
                 }
             });
         } finally {
             Bukkit.getServer().getPluginManager().callEvent(new PlayerProcessedEvent(player));
-            plugin.screeningManager.processingPlayers.remove(player.getUniqueId());
+            plugin.getScreeningManager().processingPlayers.remove(player.getUniqueId());
         }
 
         if (!player.hasPlayedBefore()) {
-            if (!plugin.configManager.getScreens().getBoolean("first-join-welcome-screen")) return null;
+            if (!plugin.getConfigManager().getScreens().getBoolean("first-join-welcome-screen")) return null;
             welcomeMessage(player, "first-join-welcome-message");
         } else {
             welcomeMessage(player, "welcome-message");
@@ -189,7 +189,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
     }
 
     private void welcomeMessage(Player player, String message) {
-        String welcomeMessage = (plugin.configManager.getLang().getString(message));
+        String welcomeMessage = (plugin.getConfigManager().getLang().getString(message));
 
         if (welcomeMessage.equals("[]")) return;
 

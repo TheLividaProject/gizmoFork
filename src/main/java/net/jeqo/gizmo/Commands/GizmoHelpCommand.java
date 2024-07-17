@@ -22,12 +22,12 @@ public class GizmoHelpCommand implements SubCommands {
     public void onCommand(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
             if (!player.hasPermission("gizmo.help")) {
-                player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + plugin.configManager.getLang().getString("commands.no-permission")));
+                player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + plugin.getConfigManager().getLang().getString("commands.no-permission")));
                 return;
             }
         }
 
-        plugin.configManager.getLang().getStringList("commands.help.usage").forEach(string -> {
+        plugin.getConfigManager().getLang().getStringList("commands.help.usage").forEach(string -> {
             sender.sendMessage(colourUtils.miniFormat(string));
         });
     }

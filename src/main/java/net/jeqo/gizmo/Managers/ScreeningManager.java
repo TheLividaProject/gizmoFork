@@ -26,12 +26,12 @@ public class ScreeningManager {
     }
 
     public void displayScreen(Player player, String configOption, String configBoolean) {
-        if (!plugin.configManager.getScreens().getBoolean(configBoolean)) return;
+        if (!plugin.getConfigManager().getScreens().getBoolean(configBoolean)) return;
 
         playersScreenActive.add(player.getUniqueId());
         playersStoredInventory.put(player.getUniqueId(), itemUtils.itemStackArrayToBase64(player.getInventory().getContents()));
 
         player.getInventory().clear();
-        GUIManager.setGUI(player, new WelcomeScreenMenu(plugin, player, configOption));
+        plugin.getGuiManager().setGUI(player, new WelcomeScreenMenu(plugin, player, configOption));
     }
 }

@@ -31,23 +31,23 @@ public class ConfigManager {
     }
 
     public String shift48() {
-        return plugin.configManager.getScreens().getString("Unicodes.shift-48");
+        return getScreens().getString("Unicodes.shift-48");
     }
 
     public String shift1013() {
-        return plugin.configManager.getScreens().getString("Unicodes.shift-1013");
+        return getScreens().getString("Unicodes.shift-1013");
     }
 
     public String shift1536() {
-        return plugin.configManager.getScreens().getString("Unicodes.shift-1536");
+        return getScreens().getString("Unicodes.shift-1536");
     }
 
     public String screenTitle() {
-        return plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.background") + shift1536() + "<#FFFFFF>" + plugin.configManager.getScreens().getString("Unicodes.welcome-screen");
+        return plugin.getConfigManager().getConfig().getString("background-color") + shift1013() + getScreens().getString("Unicodes.background") + shift1536() + "<#FFFFFF>" + getScreens().getString("Unicodes.welcome-screen");
     }
 
     public String screenTitleFirstJoin() {
-        return plugin.configManager.getConfig().getString("background-color") + shift1013() + plugin.configManager.getScreens().getString("Unicodes.first-join-background") + shift1536() + "<#FFFFFF>" + plugin.configManager.getScreens().getString("Unicodes.first-join-welcome-screen");
+        return getConfig().getString("background-color") + shift1013() + getScreens().getString("Unicodes.first-join-background") + shift1536() + "<#FFFFFF>" + getScreens().getString("Unicodes.first-join-welcome-screen");
     }
 
     public FileConfiguration getConfig() {

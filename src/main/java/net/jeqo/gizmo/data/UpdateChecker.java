@@ -50,8 +50,8 @@ public class UpdateChecker implements Listener {
             if (plugin.getDescription().getVersion().equals(version)) return;
 
             player.sendMessage("");
-            player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "&eNew update! " + version + " is now available."));
-            player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "&eDownload it here: &nhttps://jeqo.net/gizmo"));
+            player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + "&eNew update! " + version + " is now available."));
+            player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + "&eDownload it here: &nhttps://jeqo.net/gizmo"));
             player.sendMessage("");
         });
     }

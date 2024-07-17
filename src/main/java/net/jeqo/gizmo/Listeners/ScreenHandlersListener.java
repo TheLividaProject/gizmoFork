@@ -32,7 +32,7 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Check and give blindness effect
-        if (!plugin.configManager.getConfig().getBoolean("blindness-during-prompt")) return;
+        if (!plugin.getConfigManager().getConfig().getBoolean("blindness-during-prompt")) return;
         event.getPlayer().addPotionEffect(PotionEffectType.BLINDNESS.createEffect(999999, 1));
     }
 
@@ -41,19 +41,19 @@ public class ScreenHandlersListener implements Listener {
     public void onPackLoad(PlayerResourcePackStatusEvent event) {
         Player player = event.getPlayer();
 
-        if (plugin.configManager.getConfig().getBoolean("resource-pack.kick-on-decline")) {
+        if (plugin.getConfigManager().getConfig().getBoolean("resource-pack.kick-on-decline")) {
             if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
                 disableEffects(player);
             } else if (event.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED || event.getStatus() == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD) {
                 disableEffects(player);
-                player.kick(colourUtils.miniFormat(plugin.configManager.getConfig().getString("resource-pack.kick-on-decline")));
+                player.kick(colourUtils.miniFormat(plugin.getConfigManager().getConfig().getString("resource-pack.kick-on-decline")));
             }
-        } else if (!plugin.configManager.getConfig().getBoolean("resource-pack.kick-on-decline")) {
+        } else if (!plugin.getConfigManager().getConfig().getBoolean("resource-pack.kick-on-decline")) {
             if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
                 disableEffects(player);
             } else if (event.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED || event.getStatus() == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD) {
                 disableEffects(player);
-                for (String msg : plugin.configManager.getConfig().getStringList("resource-pack.no-pack-loaded")) {
+                for (String msg : plugin.getConfigManager().getConfig().getStringList("resource-pack.no-pack-loaded")) {
                     player.sendMessage(colourUtils.miniFormat(msg));
                 }
             }
@@ -63,13 +63,13 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onProcess(PlayerProcessedEvent event) {
         Player player = event.getPlayer();
-        String storedInventory = plugin.screeningManager.playersStoredInventory.get(player.getUniqueId());
+        String storedInventory = plugin.getScreeningManager().playersStoredInventory.get(player.getUniqueId());
         if (storedInventory == null) return;
 
         try {
             player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
-            plugin.screeningManager.playersStoredInventory.remove(player.getUniqueId());
-            plugin.screeningManager.playersScreenActive.remove(player.getUniqueId());
+            plugin.getScreeningManager().playersStoredInventory.remove(player.getUniqueId());
+            plugin.getScreeningManager().playersScreenActive.remove(player.getUniqueId());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -78,12 +78,12 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        String storedInventory = plugin.screeningManager.playersStoredInventory.get(player.getUniqueId());
+        String storedInventory = plugin.getScreeningManager().playersStoredInventory.get(player.getUniqueId());
         if (storedInventory == null) return;
 
         try {
             player.getInventory().setContents(itemUtils.itemStackArrayFromBase64(storedInventory));
-            plugin.screeningManager.playersStoredInventory.remove(player.getUniqueId());
+            plugin.getScreeningManager().playersStoredInventory.remove(player.getUniqueId());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -92,6 +92,7 @@ public class ScreenHandlersListener implements Listener {
     // Disable all potion effects
     private void disableEffects(Player player) {
         for (PotionEffectType effect : PotionEffectType.values()) {
+            //TODO restore their own potion effects
             if (!player.hasPotionEffect(effect)) continue;
             player.removePotionEffect(effect);
         }
@@ -101,7 +102,7 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
         event.setCancelled(true);
     }
 
@@ -110,7 +111,7 @@ public class ScreenHandlersListener implements Listener {
         Entity entity = event.getEntity();
 
         if (!(entity instanceof Player player)) return;
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
@@ -118,7 +119,7 @@ public class ScreenHandlersListener implements Listener {
     @EventHandler
     public void onSlotClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
         event.setCancelled(true);
     }
 
@@ -127,10 +128,10 @@ public class ScreenHandlersListener implements Listener {
     public void onPlayerDamage(EntityDamageByBlockEvent event) {
         Entity entity = event.getEntity();
 
-        if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
+        if (!plugin.getConfigManager().getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         if (!(entity instanceof Player player)) return;
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
@@ -139,20 +140,20 @@ public class ScreenHandlersListener implements Listener {
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
 
-        if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
+        if (!plugin.getConfigManager().getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         if (!(entity instanceof Player player)) return;
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
-        if (!plugin.configManager.getConfig().getBoolean("player-invulnerable-during-load")) return;
+        if (!plugin.getConfigManager().getConfig().getBoolean("player-invulnerable-during-load")) return;
 
         Player player = event.getPlayer();
-        if (!plugin.screeningManager.playersScreenActive.contains(player.getUniqueId())) return;
+        if (!plugin.getScreeningManager().playersScreenActive.contains(player.getUniqueId())) return;
 
         event.setCancelled(true);
     }

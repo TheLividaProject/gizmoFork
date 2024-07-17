@@ -36,15 +36,15 @@ public class PlayerScreeningListener implements Listener {
         switch (event.getStatus()) {
             case ACCEPTED:
                 // Display the background unicode during the delay
-                if (!plugin.configManager.getConfig().getBoolean("delay-background")) return;
-                player.showTitle(Title.title(colourUtils.miniFormat(plugin.configManager.getConfig().getString("background-color") + plugin.configManager.getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(999999), Duration.ofMillis(0))));
+                if (!plugin.getConfigManager().getConfig().getBoolean("delay-background")) return;
+                player.showTitle(Title.title(colourUtils.miniFormat(plugin.getConfigManager().getConfig().getString("background-color") + plugin.getConfigManager().getScreens().getString("Unicodes.background")), colourUtils.miniFormat(""), Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(999999), Duration.ofMillis(0))));
             case SUCCESSFULLY_LOADED:
                 // Play a configured sound when the pack is loaded
                 try {
-                    if (plugin.configManager.getConfig().getBoolean("sound-on-pack-load.enable")) {
-                        String soundID = plugin.configManager.getConfig().getString("sound-on-pack-load.sound");
-                        float soundVolume = Float.parseFloat(plugin.configManager.getConfig().getString("sound-on-pack-load.volume"));
-                        float soundPitch = Float.parseFloat(plugin.configManager.getConfig().getString("sound-on-pack-load.pitch"));
+                    if (plugin.getConfigManager().getConfig().getBoolean("sound-on-pack-load.enable")) {
+                        String soundID = plugin.getConfigManager().getConfig().getString("sound-on-pack-load.sound");
+                        float soundVolume = Float.parseFloat(plugin.getConfigManager().getConfig().getString("sound-on-pack-load.volume"));
+                        float soundPitch = Float.parseFloat(plugin.getConfigManager().getConfig().getString("sound-on-pack-load.pitch"));
 
                         try {
                             Sound sound = Sound.valueOf(soundID.toUpperCase());
@@ -59,34 +59,34 @@ public class PlayerScreeningListener implements Listener {
 
                 // Display first time welcome screen
                 if (!player.hasPlayedBefore()) {
-                    if (plugin.configManager.getScreens().getBoolean("enable-first-join-welcome-screen")) {
-                        plugin.screeningManager.displayScreen(player, "First-Join-Items", "enable-first-join-welcome-screen");
+                    if (plugin.getConfigManager().getScreens().getBoolean("enable-first-join-welcome-screen")) {
+                        plugin.getScreeningManager().displayScreen(player, "First-Join-Items", "enable-first-join-welcome-screen");
                         return;
                     }
                 }
 
                 // Display the screen once per restart
-                if (plugin.configManager.getScreens().getBoolean("once-per-restart")) {
+                if (plugin.getConfigManager().getScreens().getBoolean("once-per-restart")) {
                     // Check if the player has already seen the screen this server session
                     if (playerTracker.get(player.getUniqueId()) == null) {
                         playerTracker.put(player.getUniqueId(), String.valueOf(1));
-                        plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
+                        plugin.getScreeningManager().displayScreen(player, "Items", "enable-welcome-screen");
                     }
-                } else if (!plugin.configManager.getScreens().getBoolean("once-per-restart")) {
-                    plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
+                } else if (!plugin.getConfigManager().getScreens().getBoolean("once-per-restart")) {
+                    plugin.getScreeningManager().displayScreen(player, "Items", "enable-welcome-screen");
                 }
             case DECLINED:
             case FAILED_DOWNLOAD:
                 // Debug mode check; if enabled it will still send the player the welcome screen
-                if (plugin.configManager.getConfig().getBoolean("debug-mode")) {
-                    player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfNo server resource pack detected and/or debug mode is enabled."));
-                    player.sendMessage(colourUtils.miniFormat(plugin.configManager.getLang().getString("prefix") + "#acb5bfSending welcome screen..."));
-                    plugin.screeningManager.displayScreen(player, "Items", "enable-welcome-screen");
+                if (plugin.getConfigManager().getConfig().getBoolean("debug-mode")) {
+                    player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + "#acb5bfNo server resource pack detected and/or debug mode is enabled."));
+                    player.sendMessage(colourUtils.miniFormat(plugin.getConfigManager().getLang().getString("prefix") + "#acb5bfSending welcome screen..."));
+                    plugin.getScreeningManager().displayScreen(player, "Items", "enable-welcome-screen");
                 } else {
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
 
-                    if (!plugin.configManager.getLang().getString("resource-pack.no-pack-loaded").equals("[]")) {
-                        for (String msg : plugin.configManager.getLang().getStringList("resource-pack.no-pack-loaded")) {
+                    if (!plugin.getConfigManager().getLang().getString("resource-pack.no-pack-loaded").equals("[]")) {
+                        for (String msg : plugin.getConfigManager().getLang().getStringList("resource-pack.no-pack-loaded")) {
                             player.sendMessage(colourUtils.miniFormat(msg));
                         }
                     }

@@ -1,6 +1,7 @@
 package net.jeqo.gizmo;
 
 import net.jeqo.gizmo.Managers.Commands.GizmoCommandManager;
+import net.jeqo.gizmo.Managers.GUI.GUIManager;
 import net.jeqo.gizmo.data.UpdateChecker;
 import net.jeqo.gizmo.Listeners.GUI.GUIClickListener;
 import net.jeqo.gizmo.Listeners.PlayerScreeningListener;
@@ -17,8 +18,9 @@ public class Gizmo extends JavaPlugin {
 
     private final int pluginId = 16873;
 
-    public ConfigManager configManager;
-    public ScreeningManager screeningManager;
+    private ConfigManager configManager;
+    private ScreeningManager screeningManager;
+    private GUIManager guiManager;
 
     @Override
     public void onEnable() {
@@ -45,6 +47,7 @@ public class Gizmo extends JavaPlugin {
     private void loadManagers() {
         configManager = new ConfigManager(this);
         screeningManager = new ScreeningManager(this);
+        guiManager = new GUIManager();
     }
 
     private void loadCommands() {
@@ -55,7 +58,7 @@ public class Gizmo extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerScreeningListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ScreenHandlersListener(this), this);
 
-        Bukkit.getPluginManager().registerEvents(new GUIClickListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GUIClickListener(this), this);
     }
 
     private void updateChecker() {
@@ -67,5 +70,17 @@ public class Gizmo extends JavaPlugin {
             this.getLogger().warning("|                       https://jeqo.net/gizmo                       |");
             this.getLogger().warning("|-------------------------------------------------[ MADE BY JEQO ]---|");
         });
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public ScreeningManager getScreeningManager() {
+        return screeningManager;
+    }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
     }
 }
