@@ -12,7 +12,7 @@ debug-mode: false
 # -------------------------------------------------- #
 background-color: '<#000000>' # MiniMessage format is supported (i.e. <#000000> - https://docs.advntr.dev/minimessage/format.html).
 
-delay: 0 # The delay (in ticks; 20 ticks per second) for the welcome screen to be displayed after joining.
+delay: 1 # The delay (in ticks; 20 ticks per second) for the welcome screen to be displayed after joining.
 delay-background: false # Display the background texture while the delay is active.
 
 enable-fade: true # Fade the screen with your background texture when advancing.

@@ -41,40 +41,42 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
 
         this.inventory = Bukkit.createInventory(this, getSize(), getName());
 
-        if (plugin.getConfigManager().getScreens().getConfigurationSection(configOption) != null) {
-            for (String key : plugin.getConfigManager().getScreens().getConfigurationSection(configOption).getKeys(false)) {
+        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, task -> {
+            if (plugin.getConfigManager().getScreens().getConfigurationSection(configOption) != null) {
+                for (String key : plugin.getConfigManager().getScreens().getConfigurationSection(configOption).getKeys(false)) {
 
-                int slot = plugin.getConfigManager().getScreens().getInt(configOption +  "." + key + ".slot");
-                ItemStack item = new ItemStack(Material.valueOf(plugin.getConfigManager().getScreens().getString(configOption +  "." + key + ".material")));
+                    int slot = plugin.getConfigManager().getScreens().getInt(configOption + "." + key + ".slot");
+                    ItemStack item = new ItemStack(Material.valueOf(plugin.getConfigManager().getScreens().getString(configOption + "." + key + ".material")));
 
-                item.editMeta(meta -> {
-                    if (plugin.getConfigManager().getScreens().get(configOption +  "." + key + ".lore") != null) {
-                        List<Component> loreSetter = new ArrayList<>();
+                    item.editMeta(meta -> {
+                        if (plugin.getConfigManager().getScreens().get(configOption + "." + key + ".lore") != null) {
+                            List<Component> loreSetter = new ArrayList<>();
 
-                        for (String string : plugin.getConfigManager().getScreens().getStringList(configOption +  "." + key + ".lore")) {
-                            loreSetter.add(colourUtils.placeHolderMiniFormat(player, string));
+                            for (String string : plugin.getConfigManager().getScreens().getStringList(configOption + "." + key + ".lore")) {
+                                loreSetter.add(colourUtils.placeHolderMiniFormat(player, string));
+                            }
+
+                            meta.lore(loreSetter);
                         }
 
-                        meta.lore(loreSetter);
-                    }
+                        if (plugin.getConfigManager().getScreens().getBoolean(configOption + "." + key + ".hide-flags")) {
+                            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                            meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                            meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+                            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                        }
 
-                    if (plugin.getConfigManager().getScreens().getBoolean(configOption +  "." + key + ".hide-flags")) {
-                        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-                        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-                    }
+                        meta.setCustomModelData(plugin.getConfigManager().getScreens().getInt(configOption + "." + key + ".custom-model-data"));
+                        meta.displayName(colourUtils.miniFormat(plugin.getConfigManager().getScreens().getString(configOption + "." + key + ".name")));
 
-                    meta.setCustomModelData(plugin.getConfigManager().getScreens().getInt(configOption +  "." + key + ".custom-model-data"));
-                    meta.displayName(colourUtils.miniFormat(plugin.getConfigManager().getScreens().getString(configOption +  "." + key + ".name")));
+                        meta.getPersistentDataContainer().set(itemDataKey, new ItemDataPDC(), new ItemData(slot, plugin.getConfigManager().getScreens().getString("Items." + key)));
+                    });
 
-                    meta.getPersistentDataContainer().set(itemDataKey, new ItemDataPDC(), new ItemData(slot, plugin.getConfigManager().getScreens().getString("Items." + key)));
-                });
-
-                player.getOpenInventory().setItem(slot, item);
+                    player.getOpenInventory().setItem(slot, item);
+                }
             }
-        }
+        }, plugin.getConfigManager().getConfig().getInt("delay"));
     }
 
     @Override
