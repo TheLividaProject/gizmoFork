@@ -72,7 +72,7 @@ public class WelcomeScreenMenu implements MenuInventoryHolder {
                     meta.getPersistentDataContainer().set(itemDataKey, new ItemDataPDC(), new ItemData(slot, plugin.getConfigManager().getScreens().getString("Items." + key)));
                 });
 
-                inventory.setItem(slot, item);
+                player.getOpenInventory().setItem(slot, item);
             }
         }
     }

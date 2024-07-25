@@ -25,19 +25,13 @@ public class GUIClickListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         MenuInventoryHolder menuInventoryHolder = plugin.getGuiManager().getOpenGUI(player);
-
         if (menuInventoryHolder == null) return;
-
-        if (menuInventoryHolder.cancelEvent()) {
-            event.setCancelled(true);
-        }
+        if (menuInventoryHolder.cancelEvent()) event.setCancelled(true);
 
         MenuInventoryHolder newMenuHolder = menuInventoryHolder.handleClick(player, event.getCurrentItem(), event);
 
         if (newMenuHolder == null) return;
-
         event.getView().close();
-
         plugin.getGuiManager().setGUI(player, newMenuHolder);
     }
 
